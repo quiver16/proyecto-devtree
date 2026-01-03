@@ -3,6 +3,7 @@ import { Request, Response } from "express"
 import User from "../models/User"
 import slug from "slug"
 import { checkPassword, hashPassword } from "../utils/auth"
+import { generatejwt } from "../utils/jwt"
 
 export const createAccount = async (req: Request, res: Response) => {
 
@@ -35,7 +36,7 @@ export const login = async (req: Request, res: Response) => {
 
 
     const { email, password } = req.body
-    // Revisar si el usuario existe
+    // Revisar si el usuario existen
 
     const user = await User.findOne({ email })
 
@@ -48,8 +49,12 @@ export const login = async (req: Request, res: Response) => {
     if (!isValidPassword) {
         return res.status(401).json({ message: "Contraseña incorrecta" })
     }
-    res.status(200).json({ message: "Login exitoso" })
 
+    const token = generatejwt({id: user._id})
+
+    res.status(200).json(token)
+
+  
     
 
 
