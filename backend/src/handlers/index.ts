@@ -52,7 +52,7 @@ export const login = async (req: Request, res: Response) => {
 
     const token = generatejwt({id: user._id})
 
-    res.status(200).json(token)
+    res.status(200).json({token})
 
   
     

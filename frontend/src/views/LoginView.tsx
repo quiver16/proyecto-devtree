@@ -9,6 +9,8 @@ import { isAxiosError } from "axios";
 const handleLogin = async (formData: LoginForm) => {
   try {
     const { data } = await api.post("/auth/login", formData);
+
+    localStorage.setItem("AUTH_TOKEN", data.token);
     toast.success(data.message);
   } catch (error) {
     if (isAxiosError(error) && error.response) {
